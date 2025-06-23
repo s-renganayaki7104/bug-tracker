@@ -1,0 +1,7 @@
+# .gitignore
+**/ServiceAccountKey.json
+**/serviceAccountKey.json
+target/
+node_modules/
+.env
+.DS_Store
