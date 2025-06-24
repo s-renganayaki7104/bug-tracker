@@ -29,7 +29,7 @@ body {
 
 label {
   margin-bottom: 0.4rem;
-  color: #cddc39; 
+  color: #d9e06adc; 
 }
 
 .register-form input,
@@ -38,24 +38,32 @@ label {
   
   border-radius: 5px;
   border: 1px solid #444;
-  background-color: #1a1a1a;
+  background-color: #11111167;
   color: white;
 }
 
 
 .submit-btn {
-  background-color: #00bcd4;
-  color: #000000;
-  padding: 0.6rem 1.2rem;
-  font-weight: bold;
+  width: 130px;                    /* half-width */
+  margin-top: 1rem;
+  margin-left: auto;             /* center horizontally */
+  margin-right: auto;
+  display: block;                /* to respect horizontal margins */
+  
+  background-color: #d8e06a8c;
+  color: #fff;
+  padding: 15px 10px;
+  font-size: 13px;
+  font-weight:600;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
+
 .submit-btn:hover {
-  background-color: #03a9f4;
+  background-color: #d8e06a41;
 }
 
 .bug-table {
@@ -75,10 +83,72 @@ label {
   border-bottom: 1px solid #222;
   text-align: left;
 }
+.bug-table-wrapper {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background-color: #0c0c0ce8;
+  
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.03);
+}
+
+.bug-table-title {
+  font-size: 1.8rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.no-bugs-text {
+  color: #aaa;
+  font-style: italic;
+  margin: 1rem 0;
+}
+
+.bug-table td,
+.bug-table th {
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+.bug-table th{
+  font-weight: 650;
+    padding: 0.5rem;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  min-width: 90%;
+}
+
+
+
+.bug-table td span {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.bug-table td button {
+  padding: 6px 10px;
+  background-color: #25242480;
+  border-radius: 12px;
+  border-color: #222;
+  color: #eee;
+  font-size: 0.8rem;
+  transition: all 0.2s ease-in-out;
+}
+.bug-table-wrapper:hover {
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.04);
+}
+
+
+.bug-table td button:hover {
+  background-color: #2c2b2b;
+  transform: scale(1.05);
+}
+
 
 .bug-table th {
-  background-color: #2c2c2c;
+  background-color: #1f1e1e80;
   color: #cddc39;
+
 }
 
 .bug-table tr:hover {
@@ -116,4 +186,302 @@ label {
   list-style: disc;
   padding-left: 1.2rem;
   color: #dddddd;
+}
+
+/* new styles */
+.status-open {
+  color: white;
+  background-color: #7b1010;
+  padding: 6px 8px;
+  border-radius: 12px;
+  min-width: 50px;         /* Ensures consistent width */
+  text-align: center;      /* Centers the text inside */
+  display: inline-block;   /* Maintains block behavior inline */
+}
+/* .status-progress {
+  color: white;
+  background-color: hsl(36, 100%, 50%);
+  padding: 6px 8px;
+  border-radius: 12px;
+  min-width: 50px;         /* Ensures consistent width text-align: center;      /* Centers the text inside display: inline-block;
+     /* Maintains block behavior inline  */
+     .status-inprogress {
+  color: white;
+  background-color: #a54a19;
+  padding: 6px 8px;
+  border-radius: 12px;
+  min-width: 50px;         /* ⬅️ Increase min-width */
+  white-space: nowrap;      /* ⬅️ Prevent line wrap */
+  text-align: center;
+  display: inline-block;
+}
+
+
+.status-resolved {
+  background-color:#3c581b;
+  color: white;
+  padding: 6px 8px;
+  border-radius: 12px;
+  min-width: 50px;         /* Ensures consistent width */
+  text-align: center;      /* Centers the text inside */
+  display: inline-block;   /* Maintains block behavior inline */
+}
+
+.priority-high {
+  color: #a54a19;
+        /* Ensures consistent width */
+  text-align: center;      /* Centers the text inside */
+  display: inline-block;   /* Maintains block behavior inline */
+}
+.priority-medium {
+  color: #a54a19;
+  
+        /* Ensures consistent width */
+  text-align: center;      /* Centers the text inside */
+  display: inline-block;   /* Maintains block behavior inline */
+}
+.priority-low {
+  color: #3c581b;
+
+         /* Ensures consistent width */
+  text-align: center;      /* Centers the text inside */
+  display: inline-block;   /* Maintains block behavior inline */
+}
+
+
+.pagination {
+  margin-top: 1rem;
+  text-align: center;
+}
+.pagination button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;                /* 👈 Circle shape */
+  background-color: #1a1a1a;
+  color: white;
+  border: 1px solid #444;
+  margin: 0 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight:650;
+}
+
+.pagination button:hover {
+  background-color: #d8e06a41;         /* 👈 On hover effect */
+  color: #fff;
+  transform: scale(1.1);
+  
+}
+
+.pagination .active {
+  background-color: #d8e06a8c;
+  color: ffff;
+  font-weight: bold;
+  border: none;
+}
+
+
+.title-block {
+  text-align: left !important;
+  margin-bottom: 2.5rem;
+}
+.bug-tracker-title {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: white;
+  text-transform: uppercase;
+  margin: 0;
+  text-align: left; /* ✅ Add this */
+}
+
+
+.bug-tracker-title {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: white;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.out-text {
+  color: #e0e0e0; /* slightly lighter than white */
+}
+
+.bug-tracker-subtitle {
+  font-size: 1.2rem;
+  color: #d9e06adc;
+  margin-top: 0.8rem;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+.hero-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+
+/* Glow wrapper */
+.glow-wrapper {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 16px;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.05) 80%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.15),
+    0 0 40px rgba(255, 255, 255, 0.1),
+    0 0 80px rgba(255, 255, 255, 0.05);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.glow-wrapper:hover {
+  box-shadow:
+    0 0 30px rgba(255, 255, 255, 0.2),
+    0 0 60px rgba(255, 255, 255, 0.15),
+    0 0 100px rgba(255, 255, 255, 0.1);
+}
+
+.hero-image {
+  height: 350px;         /* ⬆️ Increased height */
+  width: 70%;           /* ⬆️ Take full width of container */
+  max-width: 1000px;     /* ⬆️ Optional: consistent with container */
+  object-fit:cover;
+  border-radius: 10px;
+  display: block;
+}
+
+
+.hero-caption {
+  color: #ccc;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  text-align: center;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+.bug-info-blocks {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #0c0c0ce8;
+  border-radius: 10px;
+}
+
+.bug-info-title {
+  color: white;
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.bug-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.bug-card {
+  background-color: #1f1e1e80;
+  color: #eee;
+  padding: 1rem;
+  border-radius: 05px;
+  width: calc(20% - 0.8rem);
+  min-width: 180px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+.bug-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+  color: #d9e06adc;
+  font-size: 1.1rem;
+}
+
+.bug-card p {
+  font-size: 0.95rem;
+  color: #ccccccb4;
+  margin: 0;
+}
+
+.bug-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+}
+.bug-form-section {
+  display: flex;
+  flex-direction: column; /* 👈 Stack vertically */
+  align-items: center;
+  padding: 3rem 1rem;
+  background: url('/public/bg.jpg') no-repeat center center;
+  background-size: cover;
+  border-radius: 12px;
+  margin-top: 3rem;
+  text-align: center; /* optional: center heading text */
+}
+
+.register-form {
+  background-color: rgba(0, 0, 0, 0.61); /* dark overlay to make form readable */
+  width: 100%;
+  max-width: 720px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.048);
+}
+
+.register-form .form-group {
+  margin-bottom: 1.2rem;
+}
+
+.register-form label,
+.register-form input,
+.register-form select,
+.register-form p {
+  font-weight: normal;
+  text-transform: none;
+  text-align: left;
+}
+.register-form select {
+  padding: 0.6rem;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background-color: #1e1e1e; /* Dark background */
+  color: #909189;            /* Accent text color */
+  appearance: none;          /* Removes default OS styles */
+  cursor: pointer;
+}
+
+
+.bug-action-buttons button {
+  background-color: #1a1a1a;
+  color: #d9e06adc;
+  border: 1px solid #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  padding: 6px 10px;
+  border-radius: 20px;
+  min-width: 60px;
+  text-align: center;
+  display: inline-block;
+}
+
+.bug-action-buttons button:hover {
+  background-color: #333;
+  transform: scale(1.05);
+}
+
+
+.bug-action-buttons button:active {
+  background-color: #3a3a3a;
+  transform: scale(0.97);
 }

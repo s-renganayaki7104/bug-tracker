@@ -1,9 +1,12 @@
-// src/BugTrackerHome.tsx
 import React, { useEffect, useState } from 'react';
 import './BugTracker.css';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import BugInfo from './components/BugInfo';
+import BugForm from './components/BugForm';
+import BugTable from './components/BugTable';
+import Pagination from './components/Pagination';
 
 import {
   fetchBugs as fetchAllBugs,
@@ -12,13 +15,7 @@ import {
   deleteBug,
 } from './services/bugService';
 
-interface Bug {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  priority: string;
-}
+import { Bug } from '../types/bugTypes';
 
 const BugTrackerHome: React.FC = () => {
   const [bugs, setBugs] = useState<Bug[]>([]);
@@ -28,7 +25,22 @@ const BugTrackerHome: React.FC = () => {
     description: '',
     status: 'Open',
     priority: 'Low',
+    reporter: '',
+    assignedTo: '',
   });
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const bugsPerPage = 5;
+
+  const indexOfLastBug = currentPage * bugsPerPage;
+  const indexOfFirstBug = indexOfLastBug - bugsPerPage;
+  const currentBugs = bugs.slice(indexOfFirstBug, indexOfLastBug);
+
+  useEffect(() => {
+    fetchBugs();
+    const interval = setInterval(fetchBugs, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchBugs = async () => {
     try {
@@ -38,10 +50,6 @@ const BugTrackerHome: React.FC = () => {
       toast.error('Error fetching bugs.');
     }
   };
-
-  useEffect(() => {
-    fetchBugs();
-  }, []);
 
   const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -56,7 +64,16 @@ const BugTrackerHome: React.FC = () => {
       await addBug(formData);
       toast.success('Bug submitted successfully!');
       fetchBugs();
-      setFormData({ title: '', description: '', status: 'Open', priority: 'Low' });
+
+      setFormData({
+        title: '',
+        description: '',
+        status: 'Open',
+        priority: 'Low',
+        reporter: '',
+        assignedTo: '',
+      });
+
       setScreenshotName('');
     } catch (error) {
       toast.error('Error submitting bug.');
@@ -74,127 +91,97 @@ const BugTrackerHome: React.FC = () => {
   };
 
   const markResolved = async (bug: Bug) => {
+    const resolvedBy = prompt('Enter name of person who resolved this bug:');
+    if (!resolvedBy) {
+      toast.warning('Resolution cancelled.');
+      return;
+    }
+
+    const updatedBug = {
+      ...bug,
+      status: 'Resolved',
+      resolvedBy,
+      resolvedAt: new Date().toISOString(),
+    };
+
     try {
-      await updateBug(bug.id, { ...bug, status: 'Resolved' });
-      toast.success('Bug marked as resolved');
+      await updateBug(bug.id, updatedBug);
+      toast.success('Bug marked as resolved.');
       fetchBugs();
     } catch (error) {
-      toast.error('Error updating bug.');
+      toast.error('Failed to update bug.');
     }
+  };
+
+  const handleEdit = (bug: Bug) => {
+    setFormData({
+      title: bug.title,
+      description: bug.description,
+      status: bug.status,
+      priority: bug.priority,
+      reporter: bug.reporter,
+      assignedTo: bug.assignedTo,
+    });
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const getSeverityEmoji = (priority: string) => {
     switch (priority) {
-      case 'High': return '🔥 Blocker';
-      case 'Medium': return '😠 Critical';
-      case 'Low': return '😐 Minor';
-      default: return '';
+      case 'High':
+        return '🔥 Blocker';
+      case 'Medium':
+        return '😠 Critical';
+      case 'Low':
+        return '😐 Minor';
+      default:
+        return '';
     }
   };
 
   return (
     <div className="bug-tracker-container">
       <ToastContainer />
-      <h1 className="bug-tracker-title">🐞 Bug Tracker</h1>
+      <div className="title-block">
+  <h1 className="bug-tracker-title">BUGGED<span className="out-text">OUT</span></h1>
+  <p className="bug-tracker-subtitle">Track. Debug. Done.</p>
+</div>
+<div className="hero-image-section">
+  <img
+    src="/public/banner2.jpg"
+    alt="BuggedOut Banner"
+    className="hero-image"
+  />
+  <div className="image-glow-blur" />
+  <p className="hero-caption">From chaos to clarity — your bug tracking starts here.</p>
+</div>
 
-      {/* Bug Info */}
-      <section className="bug-info">
-        <h2>Types of Bugs</h2>
-        <ul>
-          <li><strong>UI Bugs:</strong> Layout, color, or font issues</li>
-          <li><strong>Functional Bugs:</strong> Broken features or incorrect results</li>
-          <li><strong>Performance Bugs:</strong> Slow loading or freezing</li>
-          <li><strong>Security Bugs:</strong> Unauthorized access or data leaks</li>
-          <li><strong>Compatibility Bugs:</strong> Issues on specific devices or browsers</li>
-        </ul>
-      </section>
 
-      {/* Bug Entry Form */}
-      <section className="bug-form-section">
-        <h2>Submit a New Bug</h2>
-        <form onSubmit={handleSubmit} className="register-form">
-          <div className="form-group">
-            <label htmlFor="title">Bug Type</label>
-            <select
-              id="title"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              required
-            >
-              <option value="">-- Select Bug Type --</option>
-              <option value="UI Issue">UI Issue</option>
-              <option value="Functional Bug">Functional Bug</option>
-              <option value="Performance Lag">Performance Lag</option>
-              <option value="Security Vulnerability">Security Vulnerability</option>
-              <option value="Compatibility Problem">Compatibility Problem</option>
-            </select>
-          </div>
 
-          <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <input
-              id="description"
-              type="text"
-              placeholder="Describe the issue"
-              value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              required
-            />
-          </div>
 
-          <div className="form-group">
-            <label htmlFor="priority">Priority</label>
-            <select
-              id="priority"
-              value={formData.priority}
-              onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-            >
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
-            </select>
-          </div>
+      <BugInfo />
 
-          <div className="form-group">
-            <label htmlFor="screenshot">Attach Screenshot</label>
-            <input type="file" accept="image/*" onChange={handleScreenshotChange} />
-            {screenshotName && <p className="file-name">🖼 Selected: {screenshotName}</p>}
-          </div>
+      <BugForm
+        formData={formData}
+        setFormData={setFormData}
+        handleSubmit={handleSubmit}
+        handleScreenshotChange={handleScreenshotChange}
+        screenshotName={screenshotName}
+      />
 
-          <button type="submit" className="submit-btn">Submit Bug</button>
-        </form>
+      <BugTable
+        currentBugs={currentBugs}
+        handleEdit={handleEdit}
+        markResolved={markResolved}
+        handleDelete={handleDelete}
+        getSeverityEmoji={getSeverityEmoji}
+      />
 
-        <h3>Bug List</h3>
-        {bugs.length === 0 ? (
-          <p>No bugs submitted yet.</p>
-        ) : (
-          <table className="bug-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Severity</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bugs.map((bug) => (
-                <tr key={bug.id}>
-                  <td>{bug.title}</td>
-                  <td>{bug.status}</td>
-                  <td>{bug.priority}</td>
-                  <td>{getSeverityEmoji(bug.priority)}</td>
-                  <td>
-                    <button onClick={() => markResolved(bug)}>Resolve</button>
-                    <button onClick={() => handleDelete(bug.id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </section>
+      <Pagination
+        totalPages={Math.ceil(bugs.length / bugsPerPage)}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

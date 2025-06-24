@@ -20,22 +20,34 @@ public class BugTracker {
     static Gson gson = new Gson();
 
     static class Bug {
-        public int id;
-        public String title;
-        public String description;
-        public String status;
-        public String priority;
+    public int id;
+    public String title;
+    public String description;
+    public String status;
+    public String priority;
+    public String reporter;
+    public String assignedTo;
+    public String resolvedBy;
+    public String createdAt;
+    public String resolvedAt;
 
-        public Bug() {}  // Required for Firestore
+    public Bug() {} // Required by Firestore
 
-        public Bug(int id, String title, String description, String status, String priority) {
-            this.id = id;
-            this.title = title;
-            this.description = description;
-            this.status = status;
-            this.priority = priority;
-        }
+    public Bug(int id, String title, String description, String status, String priority,
+               String reporter, String assignedTo, String resolvedBy, String createdAt, String resolvedAt) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.reporter = reporter;
+        this.assignedTo = assignedTo;
+        this.resolvedBy = resolvedBy;
+        this.createdAt = createdAt;
+        this.resolvedAt = resolvedAt;
     }
+}
+
 
     public static void main(String[] args) throws Exception {
         //  Initialize Firebase
@@ -75,7 +87,10 @@ public class BugTracker {
        post("/bugs", (req, res) -> {
     try {
         Bug newBug = gson.fromJson(req.body(), Bug.class);
-        newBug.id = (int) (System.currentTimeMillis() % Integer.MAX_VALUE); // Unique ID
+        newBug.id = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
+        newBug.createdAt = new Date().toString();  // or use ISO format if preferred
+// Optional: ISO 8601 format for consistency
+
         db.collection("bugs").document(String.valueOf(newBug.id)).set(newBug);
         res.status(201);
         return gson.toJson(newBug);
@@ -85,6 +100,7 @@ public class BugTracker {
         return "{\"error\": \"" + e.getMessage() + "\"}";
     }
 });
+
 
 
         //  GET /bugs → Retrieve all bugs
@@ -125,6 +141,12 @@ public class BugTracker {
         String id = req.params(":id");
         Bug updatedBug = gson.fromJson(req.body(), Bug.class);
         updatedBug.id = Integer.parseInt(id);
+
+        // Auto-set resolvedAt only if status is 'Resolved' and not already set
+        if ("Resolved".equalsIgnoreCase(updatedBug.status) && (updatedBug.resolvedAt == null || updatedBug.resolvedAt.isEmpty())) {
+            updatedBug.resolvedAt = new Date().toString();
+        }
+
         db.collection("bugs").document(id).set(updatedBug);
         return gson.toJson(updatedBug);
     } catch (Exception e) {
@@ -133,6 +155,7 @@ public class BugTracker {
         return "{\"error\": \"" + e.getMessage() + "\"}";
     }
 });
+
 
     }
 }
