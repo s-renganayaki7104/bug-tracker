@@ -1,1 +1,2 @@
-# bug-tracker
+# BuggedOut  
+**Track. Debug. Done.**
