@@ -10,14 +10,13 @@ BuggedOut is a full-stack bug tracking platform built for developers and teams w
 
 ## Table of Contents  
 - [Inspiration](#inspiration)  
-- [Goals (Achieved)](#goals-achieved)  
+- [Goals Achieved](#goals-achieved)  
 - [Built With](#built-with)  
 - [Challenges](#challenges)  
 - [Accomplishments](#accomplishments)  
 - [What We Learned](#what-we-learned)  
 - [What's Next](#whats-next)  
-- [CI/CD Pipeline – CircleCI](#cicd-pipeline--circleci)  
-- [How to Run](#how-to-run)
+- [How to Run Locally](#how-to-run-locally)
 
 ## Inspiration  
 
@@ -72,7 +71,7 @@ BuggedOut was born out of frustration with bloated, enterprise-level bug tracker
 - Dark mode toggle
 
 
-##  How to Run the Project Locally  
+##  How to Run Locally  
 Follow these steps to set up and run both the frontend and backend of **BuggedOut**:
 
 ###  Prerequisites
