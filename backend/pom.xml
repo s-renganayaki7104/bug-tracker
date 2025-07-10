@@ -51,19 +51,7 @@
 
 <build>
   <plugins>
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>exec-maven-plugin</artifactId>
-      <version>3.1.0</version>
-      <configuration>
-        <mainClass>com.example.bugtracker.BugTracker</mainClass>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
-  <build>
-  <plugins>
-    <!-- Plugin to run the main class during development -->
+    <!-- exec-maven-plugin: for running locally -->
     <plugin>
       <groupId>org.codehaus.mojo</groupId>
       <artifactId>exec-maven-plugin</artifactId>
@@ -73,7 +61,7 @@
       </configuration>
     </plugin>
 
-    <!-- Plugin to create a runnable JAR with all dependencies -->
+    <!-- shade plugin: creates a fat JAR for deployment -->
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-shade-plugin</artifactId>
@@ -96,5 +84,6 @@
     </plugin>
   </plugins>
 </build>
+
 
 </project>
