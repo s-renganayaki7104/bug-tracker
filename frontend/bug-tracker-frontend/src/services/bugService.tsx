@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { Bug } from '../types';
+import { Bug, NewBugInput } from '../types/bugTypes';
+
 
 
 const API_BASE = "http://localhost:8080";
