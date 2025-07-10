@@ -27,63 +27,63 @@
       <artifactId>gson</artifactId>
       <version>2.10.1</version>
     </dependency>
-  
 
-  <!-- SLF4J + SimpleLogger backend -->
-<dependency>
-  <groupId>org.slf4j</groupId>
-  <artifactId>slf4j-simple</artifactId>
-  <version>2.0.9</version>
-</dependency>
-<dependency>
-  <groupId>com.google.firebase</groupId>
-  <artifactId>firebase-admin</artifactId>
-  <version>9.2.0</version>
-</dependency>
-<dependency>
-  <groupId>com.google.cloud</groupId>
-  <artifactId>google-cloud-firestore</artifactId>
-  <version>3.16.3</version> <!-- Or latest stable version -->
-</dependency>
+    <!-- SLF4J Simple Logger -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.9</version>
+    </dependency>
 
+    <!-- Firebase Admin -->
+    <dependency>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
+      <version>9.2.0</version>
+    </dependency>
 
-</dependencies>
+    <!-- Firestore -->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-firestore</artifactId>
+      <version>3.16.3</version>
+    </dependency>
+  </dependencies>
 
-<build>
-  <plugins>
-    <!-- exec-maven-plugin: for running locally -->
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>exec-maven-plugin</artifactId>
-      <version>3.1.0</version>
-      <configuration>
-        <mainClass>com.example.bugtracker.BugTracker</mainClass>
-      </configuration>
-    </plugin>
+  <build>
+    <plugins>
+      <!-- Plugin to run locally -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>com.example.bugtracker.BugTracker</mainClass>
+        </configuration>
+      </plugin>
 
-    <!-- shade plugin: creates a fat JAR for deployment -->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-shade-plugin</artifactId>
-      <version>3.4.1</version>
-      <executions>
-        <execution>
-          <phase>package</phase>
-          <goals>
-            <goal>shade</goal>
-          </goals>
-          <configuration>
-            <transformers>
-              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>com.example.bugtracker.BugTracker</mainClass>
-              </transformer>
-            </transformers>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-  </plugins>
-</build>
-
+      <!-- Plugin to generate fat JAR -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>com.example.bugtracker.BugTracker</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
