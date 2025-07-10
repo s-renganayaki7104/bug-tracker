@@ -49,8 +49,12 @@ public class BugTracker {
 
     public static void main(String[] args) throws Exception {
         // ✅ Load Firebase credentials from environment variable
-        String path = System.getenv("FIREBASE_KEY_PATH");
-        FileInputStream serviceAccount = new FileInputStream(path);
+       String path = System.getenv("FIREBASE_KEY_PATH");
+if (path == null) {
+    throw new IllegalStateException("FIREBASE_KEY_PATH environment variable is not set");
+}
+
+FileInputStream serviceAccount = new FileInputStream(path);
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
