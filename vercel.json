@@ -1,4 +1,10 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/bugs",
+      "destination": "https://bug-tracker-1-1o60.onrender.com/bugs"
+    }
+  ]
 }
