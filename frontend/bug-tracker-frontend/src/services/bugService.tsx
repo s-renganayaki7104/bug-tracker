@@ -2,8 +2,11 @@ import axios from 'axios';
 import { Bug, NewBugInput } from '../types/bugTypes';
 
 
+const API_BASE =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:8080'
+    : 'https://bug-tracker-1-1o60.onrender.com'; // <-- Replace this with your deployed backend
 
-const API_BASE = "http://localhost:8080";
 
 //  Get all bugs
 export const fetchBugs = () => axios.get<Bug[]>(`${API_BASE}/bugs`);
