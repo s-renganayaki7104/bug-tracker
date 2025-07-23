@@ -49,21 +49,39 @@ public class BugTracker {
 
     public static void main(String[] args) throws Exception {
         // ✅ Load Firebase credentials from environment variable
-       String path = System.getenv("FIREBASE_KEY_PATH");
-if (path == null) {
-    throw new IllegalStateException("FIREBASE_KEY_PATH environment variable is not set");
+       FirebaseOptions options;
+
+String path = System.getenv("FIREBASE_KEY_PATH");
+if (path != null) {
+    FileInputStream serviceAccount = new FileInputStream(path);
+    options = FirebaseOptions.builder()
+        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+        .build();
+} else {
+    String firebaseCreds = System.getenv("FIREBASE_CONFIG_JSON");
+    if (firebaseCreds == null) {
+        throw new IllegalStateException("No Firebase credentials found");
+    }
+    InputStream serviceAccountStream = new ByteArrayInputStream(firebaseCreds.getBytes(StandardCharsets.UTF_8));
+    options = FirebaseOptions.builder()
+        .setCredentials(GoogleCredentials.fromStream(serviceAccountStream))
+        .build();
 }
 
-FileInputStream serviceAccount = new FileInputStream(path);
+FirebaseApp.initializeApp(options);
+db = FirestoreClient.getFirestore();
 
-        FirebaseOptions options = FirebaseOptions.builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .build();
 
-        FirebaseApp.initializeApp(options);
-        db = FirestoreClient.getFirestore();
+        port(getAssignedPort());
 
-        port(8080);
+static int getAssignedPort() {
+    String port = System.getenv("PORT");
+    if (port != null) {
+        return Integer.parseInt(port);
+    }
+    return 8080; // fallback for local testing
+}
+
 
         // ✅ Enable CORS
         options("/*", (request, response) -> {
