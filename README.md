@@ -4,8 +4,9 @@
 ## Overview  
 BuggedOut is a full-stack bug tracking platform built for developers and teams who want more than just a static issue list. Designed with clarity, collaboration, and performance in mind, it allows users to log, manage, and resolve bugs with ease across dynamic projects. The application supports role-based user access, bug status workflows, and real-time updates. BuggedOut scales easily for solo developers and teams alike.
 
-##Demo Video
-[Click here to watch the demo video]https://drive.google.com/file/d/19XGPnXrbYPlSsqzCJd6bThHrS_gSYBxH/view?usp=sharing)
+## Demo Video
+[Click here to watch the demo video](https://drive.google.com/file/d/19XGPnXrbYPlSsqzCJd6bThHrS_gSYBxH/view?usp=sharing)
+
 
 ## Contributors  
 [@s-renganayaki7104](https://github.com/s-renganayaki7104)
